@@ -1,0 +1,95 @@
+CREATE TABLE IF NOT EXISTS bakery_product(
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    category TEXT NOT NULL DEFAULT '',
+    price REAL NOT NULL DEFAULT 10000,
+    stock INTEGER NOT NULL DEFAULT 0,
+    issued INTEGER NOT NULL,
+    has_stock INTEGER NOT NULL DEFAULT 0,
+    discount REAL NOT NULL DEFAULT 0,
+    rating REAL NOT NULL DEFAULT 0,
+    images TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TEXT DEFAULT NULL
+);
+
+findAll:
+SELECT *
+FROM bakery_product;
+
+findOne:
+SELECT *
+FROM bakery_product
+WHERE id = :id;
+
+findExisting:
+SELECT *
+FROM bakery_product
+WHERE deleted_at IS NULL;
+
+findExistingOne:
+SELECT *
+FROM bakery_product
+WHERE id = :id AND
+deleted_at IS NULL;
+
+insert:
+INSERT OR REPLACE INTO bakery_product(
+    id,
+    name,
+    description,
+    category,
+    price,
+    stock,
+    issued,
+    has_stock,
+    discount,
+    rating,
+    images
+)
+VALUES ?
+RETURNING *;
+
+update:
+UPDATE bakery_product SET
+    name = :name,
+    description = :description,
+    category = :category,
+    price = :price,
+    stock = :stock,
+    issued = :issued,
+    has_stock = :has_stock,
+    discount = :discount,
+    rating = :rating,
+    images = :images,
+    updated_at = CURRENT_TIMESTAMP
+WHERE id = :id
+RETURNING *;
+
+updateStock:
+UPDATE bakery_product SET
+    stock = :stock,
+    issued = :issued,
+    has_stock = :has_stock
+WHERE id = :id
+RETURNING *;
+
+updateIssued:
+UPDATE bakery_product SET
+    issued = :issued
+WHERE id = :id
+RETURNING *;
+
+softDelete:
+UPDATE bakery_product SET
+    updated_at = CURRENT_TIMESTAMP,
+    deleted_at = CURRENT_TIMESTAMP
+WHERE id = :id
+RETURNING *;
+
+delete:
+DELETE FROM bakery_product
+WHERE id = :id
+RETURNING *;

@@ -1,0 +1,42 @@
+CREATE TABLE IF NOT EXISTS bakery_user(
+    id TEXT NOT NULL PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    phone_number TEXT NOT NULL,
+    birth_date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    address1 TEXT NOT NULL,
+    address2 TEXT NOT NULL DEFAULT '',
+    gender TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+findUsers:
+SELECT *
+FROM bakery_user;
+
+findUser:
+SELECT *
+FROM bakery_user
+WHERE id = :id;
+
+insert:
+INSERT OR REPLACE INTO bakery_user(
+    id,
+    first_name,
+    last_name,
+    username,
+    email,
+    phone_number,
+    birth_date,
+    address1,
+    address2,
+    gender,
+    created_at
+) VALUES ?
+RETURNING *;
+
+delete:
+DELETE FROM bakery_user
+WHERE id = :id;

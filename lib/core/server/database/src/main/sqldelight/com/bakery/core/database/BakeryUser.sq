@@ -1,0 +1,84 @@
+CREATE TABLE IF NOT EXISTS bakery_user(
+    id TEXT NOT NULL PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    phone_number TEXT NOT NULL,
+    birth_date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    address1 TEXT NOT NULL,
+    address2 TEXT NOT NULL DEFAULT '',
+    gender TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'user',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TEXT DEFAULT NULL
+);
+
+findUsers:
+SELECT *
+FROM bakery_user;
+
+findUser:
+SELECT *
+FROM bakery_user
+WHERE id = :id;
+
+findExistingUser:
+SELECT *
+FROM bakery_user
+WHERE id = :id AND
+deleted_at IS NULL;
+
+findUserByEmail:
+SELECT *
+FROM bakery_user
+WHERE email = :email AND
+deleted_at IS NULL;
+
+findUserByUsername:
+SELECT *
+FROM bakery_user
+WHERE username = :username AND
+deleted_at IS NULL;
+
+insert:
+INSERT OR REPLACE INTO bakery_user(
+    id,
+    first_name,
+    last_name,
+    username,
+    email,
+    password,
+    phone_number,
+    birth_date,
+    address1,
+    address2,
+    gender
+) VALUES ?
+RETURNING *;
+
+update:
+UPDATE bakery_user SET
+    first_name = :first_name,
+    last_name = :last_name,
+    phone_number = :phone_number,
+    birth_date = :birth_date,
+    address1 = :address1,
+    address2 = :address2,
+    updated_at = CURRENT_TIMESTAMP
+WHERE id = :id
+RETURNING *;
+
+softDelete:
+UPDATE bakery_user SET
+    updated_at = CURRENT_TIMESTAMP,
+    deleted_at = CURRENT_TIMESTAMP
+WHERE id = :id
+RETURNING *;
+
+deleteById:
+DELETE FROM bakery_user
+WHERE id = :id
+RETURNING *;

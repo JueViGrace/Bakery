@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS bakery_token(
+    token TEXT NOT NULL,
+    user_id TEXT NOT NULL PRIMARY KEY,
+    FOREIGN KEY (user_id) REFERENCES bakery_user(id)
+);
+
+findTokenById:
+SELECT *
+FROM bakery_token
+WHERE user_id = :id;
+
+findByToken:
+SELECT *
+FROM bakery_token
+WHERE token = :token;
+
+insert:
+INSERT OR REPLACE INTO bakery_token(
+    token,
+    user_id
+)
+VALUES ?
+RETURNING *;
+
+update:
+UPDATE bakery_token SET
+    token = :token
+WHERE user_id = :id
+RETURNING *;
+
+delete:
+DELETE FROM bakery_token
+WHERE user_id = :id;

@@ -1,0 +1,60 @@
+CREATE TABLE IF NOT EXISTS bakery_order(
+    id TEXT NOT NULL PRIMARY KEY,
+    total_amount REAL NOT NULL,
+    payment_method TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'placed',
+    user_id TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES bakery_user(id)
+);
+
+findOrders:
+SELECT *
+FROM bakery_order;
+
+findOrder:
+SELECT *
+FROM bakery_order
+WHERE id = :id;
+
+findOrderWithLines:
+SELECT *
+FROM bakery_order
+LEFT JOIN bakery_order_products
+ON bakery_order.id = bakery_order_products.order_id
+LEFT JOIN bakery_product
+ON bakery_product.id = bakery_order_products.product_id
+WHERE bakery_order.id = :id;
+
+findOrdersByUser:
+SELECT *
+FROM bakery_order
+WHERE user_id = :id;
+
+findOrderByUserWithLines:
+SELECT *
+FROM bakery_order
+LEFT JOIN bakery_order_products
+ON bakery_order.id = bakery_order_products.order_id
+LEFT JOIN bakery_product
+ON bakery_product.id = bakery_order_products.product_id
+WHERE bakery_order.id = :id AND
+bakery_order.user_id = :user_id;
+
+insert:
+INSERT OR REPLACE INTO bakery_order(
+    id,
+    total_amount,
+    payment_method,
+    user_id
+)
+VALUES ?
+RETURNING *;
+
+updateStatus:
+UPDATE bakery_order SET
+    status = :status,
+    updated_at = CURRENT_TIMESTAMP
+WHERE id = :id
+RETURNING *;
