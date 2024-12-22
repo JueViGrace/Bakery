@@ -29,6 +29,9 @@ dependencies {
     // Api: server
     implementation(projects.lib.core.server.api)
 
+    // Validation: server
+    implementation(projects.lib.core.server.validation)
+
     // Server
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.serialization.kotlinx.json)

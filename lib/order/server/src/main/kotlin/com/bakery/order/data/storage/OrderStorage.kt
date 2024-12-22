@@ -93,10 +93,10 @@ class DefaultOrderStorage(
 
                     // todo: product stock updates could be broke down into one or separate functions
                     val updatedOrder: OrderDto? = when (OrderStatus.valueOf(dto.status)) {
-                        OrderStatus.Placed -> null
-                        OrderStatus.Cancelled -> onOrderCancel(db, order)
-                        OrderStatus.Dispatched -> onOrderDispatched(db, order)
-                        OrderStatus.Delivered -> onOrderDelivered(db, order.id)
+                        OrderStatus.PLACED -> null
+                        OrderStatus.CANCELLED -> onOrderCancel(db, order)
+                        OrderStatus.DISPATCHED -> onOrderDispatched(db, order)
+                        OrderStatus.DELIVERED -> onOrderDelivered(db, order.id)
                     }
 
                     updatedOrder
@@ -208,7 +208,7 @@ class DefaultOrderStorage(
         order: OrderDto
     ): OrderDto {
         val updatedOrder = db.bakeryOrderQueries.updateStatus(
-            status = OrderStatus.Cancelled.value,
+            status = OrderStatus.CANCELLED.value,
             id = order.id
         )
             .executeAsOneOrNull()
@@ -251,7 +251,7 @@ class DefaultOrderStorage(
         order: OrderDto
     ): OrderDto {
         val updatedOrder = db.bakeryOrderQueries.updateStatus(
-            status = OrderStatus.Dispatched.value,
+            status = OrderStatus.DISPATCHED.value,
             id = order.id
         )
             .executeAsOneOrNull()
@@ -290,7 +290,7 @@ class DefaultOrderStorage(
         orderId: String
     ): OrderDto {
         val updatedOrder = db.bakeryOrderQueries.updateStatus(
-            status = OrderStatus.Delivered.value,
+            status = OrderStatus.DELIVERED.value,
             id = orderId
         )
             .executeAsOneOrNull()

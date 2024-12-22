@@ -132,7 +132,7 @@ fun CreateOrderDto.toDb(
     id = Uuid.random().toString(),
     total_amount = totalAmount,
     payment_method = paymentMethod,
-    status = OrderStatus.Placed.value,
+    status = OrderStatus.PLACED.value,
     user_id = userId,
     created_at = Constants.currentTime,
     updated_at = Constants.currentTime,
@@ -151,5 +151,5 @@ fun CreateOrderDetailsDto.toDbDetails(orderId: String, totalPrice: Double): Orde
 
 fun CancelOrderDto.toUpdateDto(): UpdateOrderDto = UpdateOrderDto(
     id = id,
-    status = OrderStatus.Cancelled.value,
+    status = OrderStatus.CANCELLED.value,
 )
