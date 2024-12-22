@@ -1,6 +1,7 @@
 package com.bakery.core.types
 
 data class UserIdValidation(
-    val isAdmin: Boolean = false,
+    val role: Role,
     val userId: String,
+    val username: String,
 )

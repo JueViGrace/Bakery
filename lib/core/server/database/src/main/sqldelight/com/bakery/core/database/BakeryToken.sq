@@ -31,3 +31,7 @@ RETURNING *;
 delete:
 DELETE FROM bakery_token
 WHERE user_id = :id;
+
+deleteByToken:
+DELETE FROM bakery_token
+WHERE token = :token;

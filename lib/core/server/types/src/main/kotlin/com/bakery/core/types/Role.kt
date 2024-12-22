@@ -4,4 +4,5 @@ enum class Role {
     CUSTOMER,
     USER,
     ADMIN,
+    UNIDENTIFIED,
 }

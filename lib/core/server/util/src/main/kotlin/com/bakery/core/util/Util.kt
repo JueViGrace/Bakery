@@ -1,5 +1,6 @@
 package com.bakery.core.util
 
+import com.bakery.core.types.Role
 import java.util.regex.Pattern
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -26,6 +27,21 @@ object Util {
             true
         } catch (e: IllegalStateException) {
             false
+        }
+    }
+
+    fun verifyUserRole(role: String): Role {
+        return try {
+            when (val value = Role.valueOf(role)) {
+                Role.CUSTOMER -> value
+                Role.USER -> value
+                Role.ADMIN -> value
+                else -> Role.UNIDENTIFIED
+            }
+        } catch (e: IllegalArgumentException) {
+            println("Invalid role: $role")
+            println(e.message)
+            Role.UNIDENTIFIED
         }
     }
 }

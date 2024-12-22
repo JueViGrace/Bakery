@@ -15,6 +15,9 @@ dependencies {
     // Util: server
     implementation(projects.lib.core.server.util)
 
+    // Database: server
+    implementation(projects.lib.core.server.database)
+
     // Ktor
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.auth)
