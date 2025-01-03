@@ -1,0 +1,52 @@
+import kotlin.Boolean;
+
+CREATE TABLE IF NOT EXISTS bakery_session(
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    active INTEGER AS Boolean NOT NULL,
+    PRIMARY KEY(user_id),
+    FOREIGN KEY(user_id) REFERENCES bakery_user(id)
+);
+
+findActiveAccount:
+SELECT *
+FROM bakery_session
+LEFT JOIN bakery_user
+ON bakery_session.user_id = bakery_user.id
+WHERE active = 1;
+
+findAccounts:
+SELECT *
+FROM bakery_session
+LEFT JOIN bakery_user
+ON bakery_session.user_id = bakery_user.id;
+
+insert:
+INSERT OR REPLACE INTO bakery_session(
+    access_token,
+    refresh_token,
+    user_id,
+    active
+)
+VALUES ?
+RETURNING *;
+
+startSession:
+UPDATE bakery_session SET
+    active = 1
+WHERE user_id = :id;
+
+endSession:
+UPDATE bakery_session SET
+    active = 0
+WHERE active = 1;
+
+endSessions:
+UPDATE bakery_session SET
+    active = 0
+WHERE user_id != :id;
+
+deleteSession:
+DELETE FROM bakery_session
+WHERE user_id = :id;

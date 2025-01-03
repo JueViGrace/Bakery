@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS bakery_order_products(
+    order_id TEXT NOT NULL,
+    product_id TEXT NOT NULL,
+    product_name TEXT NOT NULL,
+    total_price REAL NOT NULL,
+    quantity INTEGER NOT NULL,
+    price REAL NOT NULL,
+    discount REAL NOT NULL,
+    rating REAL NOT NULL,
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES bakery_order(id),
+    FOREIGN KEY (product_id) REFERENCES bakery_product(id)
+);
+
+insert:
+INSERT OR REPLACE INTO bakery_order_products(
+    order_id,
+    product_id,
+    product_name,
+    total_price,
+    price,
+    discount,
+    quantity,
+    rating
+)
+VALUES ?
+RETURNING *;
