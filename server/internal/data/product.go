@@ -9,11 +9,11 @@ import (
 )
 
 type ProductStore interface {
-	GetProducts() ([]*types.Product, error)
-	GetProductById(id uuid.UUID) (*types.Product, error)
-	CreateProduct(cr types.CreateProductRequest) (*types.Product, error)
-	UpdateProduct(ur types.UpdateProductRequest) (*types.Product, error)
-	DeleteProduct(id uuid.UUID) error
+	GetProducts() ([]types.ProductResponse, error)
+	GetProductById(id *uuid.UUID) (types.ProductResponse, error)
+	CreateProduct(r *types.CreateProductRequest) (types.ProductResponse, error)
+	UpdateProduct(r *types.UpdateProductRequest) (types.ProductResponse, error)
+	DeleteProduct(id *uuid.UUID) error
 }
 
 func (s *storage) ProductStore() ProductStore {
@@ -32,8 +32,8 @@ func NewProductStore(ctx context.Context, db *database.Queries) ProductStore {
 	}
 }
 
-func (s *productStore) GetProducts() ([]*types.Product, error) {
-	products := make([]*types.Product, 0)
+func (s *productStore) GetProducts() ([]types.ProductResponse, error) {
+	products := make([]types.ProductResponse, 0)
 
 	dbProducts, err := s.db.GetProducts(s.ctx)
 	if err != nil {
@@ -47,8 +47,8 @@ func (s *productStore) GetProducts() ([]*types.Product, error) {
 	return products, nil
 }
 
-func (s *productStore) GetProductById(id uuid.UUID) (*types.Product, error) {
-	product := new(types.Product)
+func (s *productStore) GetProductById(id uuid.UUID) (*types.ProductResponse, error) {
+	product := new(types.ProductResponse)
 
 	dbProduct, err := s.db.GetProductById(s.ctx, id)
 	if err != nil {
@@ -60,8 +60,8 @@ func (s *productStore) GetProductById(id uuid.UUID) (*types.Product, error) {
 	return product, nil
 }
 
-func (s *productStore) CreateProduct(cr types.CreateProductRequest) (*types.Product, error) {
-	product := new(types.Product)
+func (s *productStore) CreateProduct(cr types.CreateProductRequest) (*types.ProductResponse, error) {
+	product := new(types.ProductResponse)
 
 	r, err := types.NewCreateProductParams(cr)
 	if err != nil {
@@ -78,8 +78,8 @@ func (s *productStore) CreateProduct(cr types.CreateProductRequest) (*types.Prod
 	return product, nil
 }
 
-func (s *productStore) UpdateProduct(ur types.UpdateProductRequest) (*types.Product, error) {
-	product := new(types.Product)
+func (s *productStore) UpdateProduct(ur types.UpdateProductRequest) (*types.ProductResponse, error) {
+	product := new(types.ProductResponse)
 
 	dbProduct, err := s.db.UpdateProduct(s.ctx, *types.NewUpdateProductParams(ur))
 	if err != nil {

@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS bakery_user(
     id TEXT NOT NULL PRIMARY KEY,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     phone_number TEXT NOT NULL,
@@ -45,19 +46,18 @@ CREATE TABLE IF NOT EXISTS bakery_order(
     status TEXT NOT NULL DEFAULT 'placed',
     user_id TEXT NOT NULL REFERENCES bakery_user(id),
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TEXT DEFAULT NULL
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS bakery_order_products(
     order_id TEXT NOT NULL REFERENCES bakery_order(id),
     product_id TEXT NOT NULL REFERENCES bakery_product(id),
     product_name TEXT NOT NULL,
+    product_price REAL NOT NULL,
+    product_discount REAL NOT NULL,
+    product_rating REAL NOT NULL,
     total_price REAL NOT NULL,
     quantity INTEGER NOT NULL,
-    price REAL NOT NULL,
-    discount REAL NOT NULL,
-    rating REAL NOT NULL,
     PRIMARY KEY (order_id, product_id)
 );
 

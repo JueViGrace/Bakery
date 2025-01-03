@@ -11,10 +11,10 @@ import (
 )
 
 type AuthStore interface {
-	SignIn(r types.SignInRequest) (string, error)
-	SignUp(r types.SignUpRequest) (string, error)
-	RecoverPassword(r types.RecoverPasswordRequest) (string, error)
-	ChangeEmail(r types.ChangeEmailRequest) (string, error)
+	SignIn(r *types.SignInRequest) (*types.AuthResponse, error)
+	SignUp(r *types.SignUpRequest) (*types.AuthResponse, error)
+	RecoverPassword(r *types.RecoverPasswordRequest) (string, error)
+	Refresh(r *types.RefreshRequest) (*types.AuthResponse, error)
 }
 
 func (s *storage) AuthStore() AuthStore {
@@ -33,7 +33,7 @@ func NewAuthStore(ctx context.Context, db *database.Queries) AuthStore {
 	}
 }
 
-func (s *authStore) SignIn(r types.SignInRequest) (string, error) {
+func (s *authStore) SignIn(r *types.SignInRequest) (*types.AuthResponse, error) {
 	user, err := s.db.GetUserByEmail(s.ctx, r.Email)
 	if err != nil {
 		return "", err
@@ -55,7 +55,7 @@ func (s *authStore) SignIn(r types.SignInRequest) (string, error) {
 	return tokenString, nil
 }
 
-func (s *authStore) SignUp(r types.SignUpRequest) (string, error) {
+func (s *authStore) SignUp(r *types.SignUpRequest) (*types.AuthResponse, error) {
 	newUser, err := types.SignUpRequestToDbUser(r)
 	if err != nil {
 		return "", err
@@ -80,6 +80,6 @@ func (s *authStore) RecoverPassword(r types.RecoverPasswordRequest) (string, err
 	return "", nil
 }
 
-func (s *authStore) ChangeEmail(r types.ChangeEmailRequest) (string, error) {
-	return "", nil
+func (s *authStore) Refresh(r types.RefreshRequest) (*types.AuthResponse, error) {
+	return &types.AuthResponse{}, nil
 }

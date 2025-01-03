@@ -9,9 +9,9 @@ import (
 )
 
 type UserStore interface {
-	GetUsers() ([]types.User, error)
-	GetUserById(id uuid.UUID) (*types.User, error)
-	UpdateUser(ur types.UpdateUserRequest) (*types.User, error)
+	GetUsers() ([]types.UserResponse, error)
+	GetUserById(id uuid.UUID) (*types.UserResponse, error)
+	UpdateUser(ur types.UpdateUserRequest) (*types.UserResponse, error)
 	DeleteUser(id uuid.UUID) error
 }
 
@@ -31,8 +31,8 @@ func NewUserStore(ctx context.Context, db *database.Queries) UserStore {
 	}
 }
 
-func (us *userStore) GetUsers() ([]types.User, error) {
-	users := make([]types.User, 0)
+func (us *userStore) GetUsers() ([]types.UserResponse, error) {
+	users := make([]types.UserResponse, 0)
 
 	dbUsers, err := us.db.GetUsers(us.ctx)
 	if err != nil {
@@ -46,8 +46,8 @@ func (us *userStore) GetUsers() ([]types.User, error) {
 	return users, nil
 }
 
-func (us *userStore) GetUserById(id uuid.UUID) (*types.User, error) {
-	user := new(types.User)
+func (us *userStore) GetUserById(id uuid.UUID) (*types.UserResponse, error) {
+	user := new(types.UserResponse)
 
 	dbUser, err := us.db.GetUserById(us.ctx, id)
 	if err != nil {
@@ -59,8 +59,8 @@ func (us *userStore) GetUserById(id uuid.UUID) (*types.User, error) {
 	return user, nil
 }
 
-func (us *userStore) UpdateUser(ur types.UpdateUserRequest) (*types.User, error) {
-	user := new(types.User)
+func (us *userStore) UpdateUser(ur types.UpdateUserRequest) (*types.UserResponse, error) {
+	user := new(types.UserResponse)
 
 	dbUser, err := us.db.UpdateUser(us.ctx, *types.NewUpdateUserParams(ur))
 	if err != nil {

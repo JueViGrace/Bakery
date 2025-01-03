@@ -1,4 +1,4 @@
-package com.bakery.core.shared.types.user
+package com.bakery.core.types.user.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
