@@ -1,6 +1,6 @@
 package com.bakery.core.types.response
 
-import com.bakery.core.shared.types.Constants
+import com.bakery.core.types.common.Constants
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

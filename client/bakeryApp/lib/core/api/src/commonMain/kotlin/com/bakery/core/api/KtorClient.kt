@@ -1,6 +1,6 @@
 package com.bakery.core.api
 
-import com.bakery.core.shared.types.log
+import com.bakery.core.types.common.log
 import com.bakery.core.types.response.APIResponse
 import com.bakery.core.types.response.ApiOperation
 import com.bakery.core.types.state.AppCodes

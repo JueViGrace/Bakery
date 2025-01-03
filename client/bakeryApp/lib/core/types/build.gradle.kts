@@ -26,9 +26,6 @@ kotlin {
         }
 
         commonMain.dependencies {
-            // Types: client
-            implementation(projects.lib.core.types)
-
             // Database: client
             implementation(projects.lib.core.database)
 

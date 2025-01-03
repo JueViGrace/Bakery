@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.bakery.core.presentation.ui.components.display.TextComponent
 import com.bakery.core.resources.resources.generated.resources.Res
 import com.bakery.core.resources.resources.generated.resources.app_name
-import com.bakery.core.shared.types.Constants
+import com.bakery.core.types.common.Constants
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
